@@ -1,7 +1,17 @@
 <?php
 
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\CareerController;
+use App\Http\Controllers\Guest\AboutController as GuestAboutController;
+use App\Http\Controllers\Guest\CareerController as GuestCareerController;
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\Guest\VacancyController as GuestVacancyController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VacancyController;
+use App\Models\Vacancy;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,12 +26,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Guest Routes
-Route::view('/', 'welcome')->name('welcome');
+Route::get('/', [GuestHomeController::class, 'index'])->name('welcome');
+Route::get('/about', [GuestAboutController::class, 'index'])->name('about');
+ROute::get('/career', [GuestCareerController::class, 'index'])->name('career');
+Route::get('/vacancies', [GuestVacancyController::class, 'index'])->name('vacancy');
 
 // Authenticated Routes
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-    Route::view('/about', 'about')->name('about');
+    Route::resource('home',HomeController::class);
+    Route::resource('about', AboutController::class);
+    Route::resource('career', CareerController::class);
+
+    Route::resource('vacancy', VacancyController::class);
+    Route::resource('job', JobController::class);
+
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');

@@ -19,8 +19,13 @@ document.addEventListener('alpine:init', () => {
         },
 
         isMultiLevelMenuOpen: false,
-        toggleMultiLevelMenu() {
-            this.isMultiLevelMenuOpen = !this.isMultiLevelMenuOpen
-        }
+        toggleMultiLevelMenu(event) {
+            // Prevent the click event from propagating to parent elements
+            event.stopPropagation();
+            this.isMultiLevelMenuOpen = !this.isMultiLevelMenuOpen;
+        },
+        closeMultiLevelMenu() {
+            this.isMultiLevelMenuOpen = false;
+        },
     }))
 })
