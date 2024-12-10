@@ -78,7 +78,7 @@
                         @foreach($job_lists as $category_name => $jobs)
                             <h3 class="service-details__title" style="font-size:20px;color:#0b2f81">{{ $category_name }}</h3>
                             @foreach($jobs as $job)
-                                <div class="accrodion" style="margin-left:40px;margin-bottom:25px">
+                                <div class="accrodion" style="margin-left:40px;">
                                     <div class="accrodion-title">
                                         <h4>
                                             {{ $job['job_title'] }}
@@ -117,6 +117,9 @@
                                     </div>
                                 </div><!-- /.accordian-item -->
                             @endforeach
+                            <div class="pagination-wrapper">
+                                {{ $jobs->appends(request()->except($jobs->getPageName()))->links('pagination::default') }}
+                            </div>
                         @endforeach
 
                         <!-- Recruitment Section -->
