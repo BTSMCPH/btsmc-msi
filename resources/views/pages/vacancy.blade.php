@@ -87,29 +87,23 @@
                                     </div><!-- /.accordian-title -->
                                     <div class="accrodion-content">
                                         <div class="inner">
-                                            <p><i class="fas fa-briefcase" style="padding-right:5px;"></i> On-the-job training</p>
-                                            <p><i class="fas fa-map-marker" style="padding-right:5px;"></i> Cubao, Quezon City</p>
-                                            <p><i class="fas fa-calendar" style="padding-right:5px;"></i> Monday-Friday (7:00 AM - 4:00 PM)</p>
+                                            <p><i class="fas fa-briefcase" style="padding-right:5px;"></i> {{ $job['job_type'] }}</p>
+                                            <p><i class="fas fa-map-marker" style="padding-right:5px;"></i> {{ $job['location'] }}</p>
+                                            <p><i class="fas fa-calendar" style="padding-right:5px;"></i> {{ $job['schedule'] }}</p>
                                             <p style="padding-top: 15px; font-size: 20px;">Job Requirements</p>
-                                            <ul style="margin-left:5px">
-                                                <li>Currently taking BS Psychology, BS Business Administration Major in Human Resource Management or related field</li>
-                                                <li>Proficient in MS Office</li>
-                                                <li>Able to demonstrate professional work ethic</li>
-                                                <li>Able to maintain flexible work schedule</li>
-                                                <li>Outstanding written and verbal communication skills</li>
-                                                <li>Good interpersonal and organizational skills</li>
-                                                <li>Can start immediately</li>
-                                            </ul>
-                                            <p style="font-size: 20px;">Job Description</p>
-                                            <ul style="margin-left:5px">
-                                                <li>Gathers and organizes job applications</li>
-                                                <li>Posts job advertisements to various job portals (Jobstreet, Indeed, etc.)</li>
-                                                <li>Assist with the recruitment, screening, and interviewing of applicants for various employment positions.</li>
-                                                <li>Schedule interviews in collaboration with the Project Leads, Recruitment Team, and candidates.</li>
-                                                <li>Checking talent pool names against any candidate database to avoid candidate endorsement duplication.</li>
-                                            </ul>
+                                            <!-- Render job_requirements with HTML -->
+                                            <div style="margin-left:5px">
+                                                {!! $job['job_requirements'] !!}
+                                            </div>
+
+                                            <p style="padding-top: 15px; font-size: 20px;">Job Description</p>
+                                            <!-- Render job_description with HTML -->
+                                            <div style="margin-left:5px">
+                                                {!! $job['job_description'] !!}
+                                            </div>
                                             <p style="text-align:center">
-                                                <a href="#" class="hiredots-btn hiredots-btn--base">
+                                                <a href="https://btsmcph.com/recruitment/pre-emp-app.php?job_id={{ urlencode($job['id']) }}"
+                                                    class="hiredots-btn hiredots-btn--base">
                                                     <span>Click here to Apply</span>
                                                 </a>
                                             </p>

@@ -13,7 +13,8 @@ class VacancyBannerController extends Controller
      */
     public function index()
     {
-        //
+        $vacancyBanner = VacancyBanner::first();
+        return view('admin.pages.vacancy.vacancy-banner.vacancyIndex', compact('vacancyBanner'));
     }
 
     /**
@@ -21,7 +22,7 @@ class VacancyBannerController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.vacancy.vacancy-banner.vacancyCreate');
     }
 
     /**

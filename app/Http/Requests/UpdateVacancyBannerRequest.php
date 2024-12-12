@@ -22,9 +22,9 @@ class UpdateVacancyBannerRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'banner_image' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'title' => 'required|string|max:255',
-            'subtitle' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ];
     }
 }

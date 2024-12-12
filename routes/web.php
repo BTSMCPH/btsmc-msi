@@ -10,8 +10,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\VacancyBannerController;
 use App\Http\Controllers\VacancyController;
-use App\Models\Vacancy;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,8 +39,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('career', CareerController::class);
 
     Route::resource('vacancy', VacancyController::class);
+    Route::resource('vacancy-banner', VacancyBannerController::class);
     Route::resource('job', JobController::class);
 
+    // Custom route to update status
+    Route::post('/job/update-status/{job}', [JobController::class, 'updateStatus'])->name('job.update-status');
 
     // Users
     Route::get('/users', [UserController::class, 'index'])->name('users.index');

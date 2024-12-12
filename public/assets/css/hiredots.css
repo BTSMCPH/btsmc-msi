@@ -10684,6 +10684,13 @@ video-container {
     box-shadow: 0 0 0 3px #cbd5e1;
 }
 
+.pagination-wrapper .active span {
+    background-color: #6366F1;
+    color: #ffffff;
+    border-color: #6366F1;
+    text-decoration: none;
+}
+
 /* Active/Checked State */
 .pagination-wrapper a.active,
 .pagination-wrapper span.active {

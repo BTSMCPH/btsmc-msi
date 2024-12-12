@@ -53,17 +53,15 @@
                 @enderror
             </div>
 
-            <!-- Job Status -->
+            <!-- Status Toggle -->
             <div class="mb-4">
                 <label for="status" class="block text-sm font-medium text-gray-700">{{ __('Status') }}</label>
-                <select name="status" id="status"
-                    class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                    required>
-                    <option value="active" {{ old('status', $job->status ?? 'active') === 'active' ? 'selected' : ''
-                        }}>Active</option>
-                    <option value="inactive" {{ old('status', $job->status ?? '') === 'inactive' ? 'selected' : ''
-                        }}>Inactive</option>
-                </select>
+                <label class="switch">
+                    <input type="hidden" name="status" class="" value="inactive">
+                    <input type="checkbox" name="status" id="status" class="" value="active"
+                        {{ $job->status == 'active' ? 'checked' : '' }}>
+                    <span class="slider"></span>
+                </label>
                 @error('status')
                 <div class="text-sm text-red-500">{{ $message }}</div>
                 @enderror
@@ -95,7 +93,7 @@
 
             <!-- Job Requirements -->
             <div class="mb-4">
-                <label for="job_requirements" class=" mb-2 block text-sm font-medium text-gray-700">{{ __('Job Requirements')
+                <label for="job_requirements" class="block mb-2 text-sm font-medium text-gray-700 ">{{ __('Job Requirements')
                     }}</label>
                 <textarea id="job_requirements" name="job_requirements"
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">{{ old('job_requirements', $job->job_requirements) }}</textarea>
@@ -106,7 +104,7 @@
 
             <!-- Job Description -->
             <div class="mb-4">
-                <label for="job_description" class=" mb-2 block text-sm font-medium text-gray-700">{{ __('Job Description')
+                <label for="job_description" class="block mb-2 text-sm font-medium text-gray-700 ">{{ __('Job Description')
                     }}</label>
                 <textarea id="job_description" name="job_description"
                     class="block w-full mt-1 border-gray-300 rounded-md shadow-sm">{{ old('job_description', $job->job_description) }}</textarea>

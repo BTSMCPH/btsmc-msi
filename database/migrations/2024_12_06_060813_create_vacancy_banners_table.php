@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('vacancy_banners', function (Blueprint $table) {
             $table->id();
-            $table->string('banner_image');
             $table->string('title');
-            $table->string('subtitle');
+            $table->text('description')->nullable();
+            $table->string('image_path')->nullable();
             $table->timestamps();
         });
     }

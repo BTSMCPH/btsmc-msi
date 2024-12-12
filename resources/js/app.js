@@ -1,6 +1,7 @@
+import $ from 'jquery';
+// window.$ = window.jQuery = $;
 import './bootstrap';
 import Alpine from 'alpinejs';
-import $ from 'jquery';
 import Swal from 'sweetalert2';
 import 'datatables.net';
 import 'datatables.net-dt';
@@ -8,7 +9,7 @@ import 'datatables.net-responsive';
 import '../css/datatables.css';
 // import 'datatables.net-dt/css/dataTables.dataTables.css';
 import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
-
+// import './toggle-status';
 
 window.Swal = Swal;
 window.Alpine = Alpine;
@@ -57,6 +58,30 @@ $(document).ready(function () {
     });
     // .columns.adjust()
     // .responsive.recalc();
+
 });
 
+// STATUS TOGGLE FOR JOBS ACTIVE AND INACTIVE
+$(document).on('change', '.status-toggle', function() {
+    var jobId = $(this).data('job-id');
+    var status = $(this).prop('checked') ? 'active' : 'inactive';
+
+    console.log("Job ID: " + jobId);
+    console.log("Status: " + status);
+
+    $.ajax({
+        url: '/admin/job/update-status/' + jobId,  // Corrected route
+        type: 'POST',
+        data: {
+            _token: $('meta[name="csrf-token"]').attr('content'),
+            status: status
+        },
+        success: function(response) {
+            console.log('Job status updated to ' + status);  // Check the response
+        },
+        error: function(xhr, status, error) {
+            console.error('Error updating job status: ' + error);
+        }
+    });
+});
 

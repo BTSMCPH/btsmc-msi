@@ -45,7 +45,7 @@ class JobController extends Controller
             ]);
         }
 
-        return view('admin.pages.jobs.jobIndex');
+        return view('admin.pages.vacancy.jobs.jobIndex');
     }
 
     /**
@@ -53,7 +53,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.jobs.jobCreate');
+        return view('admin.pages.vacancy.jobs.jobCreate');
     }
 
     /**
@@ -61,14 +61,9 @@ class JobController extends Controller
      */
     public function store(StoreJobRequest $request)
     {
-        Job::create([
-            'job_title' => $request->job_title,
-            'job_type' => $request->job_type,
-            'location' => $request->location,
-            'schedule' => $request->schedule,
-            'job_requirements' => $request->job_requirements,
-            'job_description' => $request->job_description,
-        ]);
+        $storeData = $request->validated();
+
+        Job::create($storeData);
 
         return redirect()->route('job.index')->with('success', 'Job created successfully.');
     }
@@ -79,7 +74,7 @@ class JobController extends Controller
     public function edit(Job $job)
     {
         // \dd($job);
-        return view('admin.pages.jobs.jobEdit', compact('job'));
+        return view('admin.pages.vacancy.jobs.jobEdit', compact('job'));
     }
 
     /**
@@ -102,5 +97,27 @@ class JobController extends Controller
         $job->delete();
 
         return redirect()->route('job.index')->with('success', 'Job deleted successfully.');
+    }
+
+    /**
+     * Update the status of the job.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Job  $job
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus(Request $request, Job $job)
+    {
+        // Validate the incoming status
+        $validated = $request->validate([
+            'status' => 'required|in:active,inactive',  // Ensure status is valid
+        ]);
+
+        // Update the job status
+        $job->status = $validated['status'];
+        $job->save();
+
+        // Return a JSON response
+        return response()->json(['status' => $job->status]);
     }
 }
