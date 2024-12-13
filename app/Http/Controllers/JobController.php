@@ -69,11 +69,22 @@ class JobController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Job  $job
+     * @return \Illuminate\View\View
+     */
+    public function show(Job $job)
+    {
+        return view('admin.pages.vacancy.jobs.jobShow', compact('job'));
+    }
+
+
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Job $job)
     {
-        // \dd($job);
         return view('admin.pages.vacancy.jobs.jobEdit', compact('job'));
     }
 
@@ -110,7 +121,7 @@ class JobController extends Controller
     {
         // Validate the incoming status
         $validated = $request->validate([
-            'status' => 'required|in:active,inactive',  // Ensure status is valid
+            'status' => 'required|in:active,inactive',
         ]);
 
         // Update the job status

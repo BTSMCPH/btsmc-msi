@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\VacancyBanner;
 use App\Http\Requests\StoreVacancyBannerRequest;
 use App\Http\Requests\UpdateVacancyBannerRequest;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class VacancyBannerController extends Controller
 {
@@ -30,15 +31,30 @@ class VacancyBannerController extends Controller
      */
     public function store(StoreVacancyBannerRequest $request)
     {
-        //
+        $bannerData = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $image =  $request->file('image');
+            $path = $image->storeAs('vacancy_banners', time() . '.' . $image->getClientOriginalExtension(), 'public');
+            $fullPath = public_path('storage/' . $path);
+
+            $optimizerChain = OptimizerChainFactory::create();
+            $optimizerChain->optimize($fullPath);
+
+            $bannerData['image_path'] = 'storage/' . $path;
+        }
+
+        VacancyBanner::create($bannerData);
+
+        return redirect()->route('vacancy-banner.index')->with('success', 'Vacancy banner created successfully.');
     }
 
-    /**
+   /**
      * Display the specified resource.
      */
     public function show(VacancyBanner $vacancyBanner)
     {
-        //
+        return view('vacancy_banner.show', compact('vacancyBanner'));
     }
 
     /**
@@ -46,7 +62,7 @@ class VacancyBannerController extends Controller
      */
     public function edit(VacancyBanner $vacancyBanner)
     {
-        //
+        return view('admin.pages.vacancy.vacancy-banner.vacancyEdit', compact('vacancyBanner'));
     }
 
     /**
@@ -54,7 +70,25 @@ class VacancyBannerController extends Controller
      */
     public function update(UpdateVacancyBannerRequest $request, VacancyBanner $vacancyBanner)
     {
-        //
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $path = $image->storeAs('vacancy_banners', time() . '.' . $image->getClientOriginalExtension(), 'public');
+            $fullPath = public_path('storage/' . $path);
+            $optimizer = OptimizerChainFactory::create();
+            $optimizer->optimize($fullPath);
+
+            if ($vacancyBanner->image_path && file_exists(public_path($vacancyBanner->image_path))) {
+                unlink(public_path($vacancyBanner->image_path));
+            }
+
+            $validatedData['image_path'] = 'storage/' . $path;
+        }
+
+        $vacancyBanner->update($validatedData);
+
+        return redirect()->route('vacancy-banner.index')->with('success', 'Vacancy banner updated successfully.');
     }
 
     /**
@@ -62,6 +96,12 @@ class VacancyBannerController extends Controller
      */
     public function destroy(VacancyBanner $vacancyBanner)
     {
-        //
+        if ($vacancyBanner->image_path && file_exists(public_path($vacancyBanner->image_path))) {
+            unlink(public_path($vacancyBanner->image_path));
+        }
+
+        $vacancyBanner->delete();
+
+        return redirect()->route('vacancy-banner.index')->with('success', 'Vacancy banner deleted successfully.');
     }
 }

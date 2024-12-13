@@ -1,9 +1,27 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Job Position Create') }}
+        <div class="flex items-center justify-between">
+
+            <!-- Page Title -->
+            <h2 class="text-2xl font-bold text-gray-800">
+                {{ __('Job Position Create') }}
+            </h2>
+
+            <!-- Back Button -->
+            <a href="{{ route('job.index') }}"
+                class="flex items-center gap-2 px-4 py-2 text-sm font-bold text-white uppercase transition bg-gray-600 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+
+                <!-- Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 4.5l-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
+                </svg>
+
+                <span>Back to List</span>
+            </a>
+        </div>
     </x-slot>
 
-    <div class="p-4 bg-white rounded-lg shadow-xs">
+    <div class="p-4 mb-5 bg-white rounded-lg shadow-xs">
         <form action="{{ route('job.store') }}" method="POST">
             @csrf
 

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 /* @media print {
 	body {
@@ -63,7 +63,7 @@
 }
 
 input:checked + .slider {
-    background-color: #4CAF50;
+    background-color: #4caf50;
 }
 
 input:checked + .slider:before {
@@ -79,4 +79,16 @@ input:checked + .slider:before {
     text-overflow: ellipsis;
     white-space: normal;
     max-height: 3rem;
+}
+
+.job-requirements ul,
+.job-description ul {
+    list-style-type: disc;
+    list-style-position: inside;
+}
+
+.job-requirements ol,
+.job-description ol {
+    list-style-type: decimal;
+    list-style-position: inside;
 }

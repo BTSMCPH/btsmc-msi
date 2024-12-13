@@ -1,38 +1,80 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Vacancy Edit') }}
+        <div class="flex items-center justify-between">
+            <span> {{ __('Edit Vacancy Banner') }}</span>
+            <a href="{{ route('vacancy-banner.index') }}"
+                class="px-4 py-2 text-sm font-bold text-white uppercase bg-gray-500 rounded-lg hover:bg-gray-600">
+                Back to List
+            </a>
+        </div>
     </x-slot>
 
-    <div class="p-4 bg-white rounded-lg shadow-xs">
-        <form action="{{ route('vacancy.update', $vacancy->id) }}" method="POST">
+    <div class="p-4 bg-white rounded-lg shadow-md">
+        <form action="{{ route('vacancy-banner.update', $vacancyBanner->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
-            <!-- Vacancy Title -->
+            <!-- Title -->
             <div class="mb-4">
-                <label for="vacancy_banner_title" class="block text-sm font-medium text-gray-700">{{ __('Vacancy Title') }}</label>
-                <input type="text" id="vacancy_banner_title" name="vacancy_banner_title" value="{{ old('vacancy_banner_title', $vacancy->vacancy_banner_title) }}" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" name="title" id="title"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    value="{{ old('title', $vacancyBanner->title) }}" required>
             </div>
 
-            <!-- Vacancy Subtitle -->
+            <!-- Description -->
             <div class="mb-4">
-                <label for="vacancy_banner_subtitle" class="block text-sm font-medium text-gray-700">{{ __('Vacancy Subtitle') }}</label>
-                <input type="text" id="vacancy_banner_subtitle" name="vacancy_banner_subtitle" value="{{ old('vacancy_banner_subtitle', $vacancy->vacancy_banner_subtitle) }}" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="description"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300">{{ old('description', $vacancyBanner->description) }}</textarea>
             </div>
 
-            <!-- Vacancy Banner Image -->
+            <!-- Current Image -->
             <div class="mb-4">
-                <label for="vacancy_banner_image" class="block text-sm font-medium text-gray-700">{{ __('Vacancy Banner Image') }}</label>
-                <input type="file" id="vacancy_banner_image" name="vacancy_banner_image" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <small class="text-gray-500">{{ __('Leave empty to keep the current image') }}</small>
+                <label class="block text-sm font-medium text-gray-700">Current Banner Image</label>
+                <img src="{{ asset($vacancyBanner->image_path) }}" alt="Current Image" class="object-cover w-64 h-64 mt-2 rounded-lg">
+            </div>
+
+            <!-- Image Upload with Preview -->
+            <div class="mb-4">
+                <label for="image" class="block text-sm font-medium text-gray-700">Upload New Image</label>
+                <input type="file" name="image" id="image"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    accept="image/*">
+                @error('image')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
+                @enderror
+
+                <!-- Image Preview -->
+                <div class="mt-4">
+                    <img id="image-preview" class="object-cover w-64 h-64 rounded-lg" src="#" alt="New Image Preview" style="display: none;">
+                </div>
             </div>
 
             <!-- Submit Button -->
-            <div class="mt-4">
-                <button type="submit" class="inline-flex justify-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    {{ __('Update Vacancy') }}
+            <div class="mt-6">
+                <button type="submit"
+                    class="px-4 py-2 text-sm font-bold text-white uppercase bg-blue-500 rounded-lg float-end hover:bg-blue-600">
+                    Update Banner
                 </button>
             </div>
         </form>
     </div>
+
+    <!-- Image Preview Script -->
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </x-app-layout>

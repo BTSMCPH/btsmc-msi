@@ -1,46 +1,80 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Create Vacancy') }}
+        <div class="flex items-center justify-between">
+            <span> {{ __('Create Vacancy Banner') }}</span>
+            <a href="{{ route('vacancy-banner.index') }}"
+                class="px-4 py-2 text-sm font-bold text-white uppercase bg-gray-500 rounded-lg hover:bg-gray-600">
+                Back to List
+            </a>
+        </div>
     </x-slot>
 
-    <div class="p-4 bg-white rounded-lg shadow-xs">
-        <form action="{{ route('vacancy.store') }}" method="POST" enctype="multipart/form-data">
+    <div class="p-4 bg-white rounded-lg shadow-md">
+        <form action="{{ route('vacancy-banner.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <!-- Banner Image -->
+            <!-- Title -->
             <div class="mb-4">
-                <x-input-label :value="__('Banner Image')"/>
-
-                <input type="file" name="vacancy_banner_image" id="banner_image" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
-                @error('vacancy_banner_image')
-                    <div class="text-sm text-red-500">{{ $message }}</div>
+                <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                <input type="text" name="title" id="title"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    value="{{ old('title') }}" placeholder="Enter banner title" required>
+                @error('title')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
             </div>
 
-            <!-- Banner Title -->
+            <!-- Description -->
             <div class="mb-4">
-                <label for="banner_title" class="block text-sm font-medium text-gray-700">{{ __('Banner Title') }}</label>
-                <input type="text" name="vacancy_banner_title" id="banner_title" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('banner_title') }}" required>
-                @error('vacancy_banner_title')
-                    <div class="text-sm text-red-500">{{ $message }}</div>
+                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                <textarea name="description" id="description"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    placeholder="Enter a brief description">{{ old('description') }}</textarea>
+                @error('description')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
             </div>
 
-            <!-- Banner Subtitle -->
+            <!-- Image Upload with Preview -->
             <div class="mb-4">
-                <label for="banner_subtitle" class="block text-sm font-medium text-gray-700">{{ __('Banner Subtitle') }}</label>
-                <input type="text" name="vacancy_banner_subtitle" id="banner_subtitle" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" value="{{ old('banner_subtitle') }}" required>
-                @error('vacancy_banner_subtitle')
-                    <div class="text-sm text-red-500">{{ $message }}</div>
+                <label for="image" class="block text-sm font-medium text-gray-700">Upload Image</label>
+                <input type="file" name="image" id="image"
+                    class="w-full px-4 py-2 mt-1 text-sm border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"
+                    accept="image/*">
+                @error('image')
+                    <span class="text-sm text-red-500">{{ $message }}</span>
                 @enderror
+
+                <!-- Image Preview -->
+                <div class="mt-4">
+                    <img id="image-preview" class="object-cover w-64 h-64 rounded-lg" src="#" alt="Image Preview" style="display: none;">
+                </div>
             </div>
 
             <!-- Submit Button -->
-            <div class="mt-4">
-                <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
-                    {{ __('Create Vacancy') }}
+            <div class="mt-6">
+                <button type="submit"
+                    class="px-4 py-2 text-sm font-bold text-white uppercase bg-green-500 rounded-lg float-end hover:bg-green-600">
+                    Create Banner
                 </button>
             </div>
         </form>
     </div>
+
+    <!-- Image Preview Script -->
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </x-app-layout>
