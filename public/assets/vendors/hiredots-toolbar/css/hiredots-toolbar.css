@@ -8,25 +8,19 @@
   background-color: #fff;
   width: 200px;
   text-align: center;
-  -webkit-box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.04);
-          box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 10px 30px 0px rgba(0, 0, 0, 0.04);
   padding-top: 25px;
   padding-bottom: 30px;
   padding-left: 15px;
   padding-right: 15px;
-  -webkit-transform: translateX(-100%);
-          transform: translateX(-100%);
-  -webkit-transition: -webkit-transform 500ms ease;
-  transition: -webkit-transform 500ms ease;
+  transform: translateX(-100%);
   transition: transform 500ms ease;
-  transition: transform 500ms ease, -webkit-transform 500ms ease;
   border-top-right-radius: var(--insur-bdr-radius, 10px);
   border-bottom-right-radius: var(--insur-bdr-radius, 10px);
 }
 
 .style-switcher.active {
-  -webkit-transform: translateX(0%);
-          transform: translateX(0%);
+  transform: translateX(0%);
 }
 
 .style-switcher h3 {
@@ -43,11 +37,9 @@
 
 .style-switcher .layout-feature,
 .style-switcher .language-feature {
-  display: -ms-grid;
   display: grid;
   grid-gap: 10px;
-  -ms-grid-columns: 1fr 1fr;
-      grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   margin-top: 15px;
 }
 
@@ -75,8 +67,7 @@
 }
 
 .style-switcher .layout-feature button:last-child {
-  -ms-grid-column: 1;
-      grid-column-start: 1;
+  grid-column-start: 1;
   grid-column-end: 3;
 }
 
@@ -89,16 +80,9 @@
   width: 40px;
   height: 40px;
   background-color: var(--insur-base);
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transition: 500ms;
+  align-items: center;
+  justify-content: center;
   transition: 500ms;
   border-top-right-radius: var(--insur-bdr-radius, 10px);
   border-bottom-right-radius: var(--insur-bdr-radius, 10px);
@@ -113,11 +97,9 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  display: -ms-grid;
   display: grid;
   grid-gap: 15px;
-  -ms-grid-columns: 1fr 1fr 1fr;
-      grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 #styleOptions li {
@@ -141,5 +123,4 @@
 /* body fix */
 body {
   top: auto !important;
-}
-/*# sourceMappingURL=nisoz-toolbar.css.map */
+}/*# sourceMappingURL=hiredots-toolbar.css.map */

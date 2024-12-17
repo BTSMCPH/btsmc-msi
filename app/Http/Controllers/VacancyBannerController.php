@@ -15,7 +15,7 @@ class VacancyBannerController extends Controller
     public function index()
     {
         $vacancyBanner = VacancyBanner::first();
-        return view('admin.pages.vacancy.vacancy-banner.vacancyIndex', compact('vacancyBanner'));
+        return view('admin.pages.vacancy.banner.index', compact('vacancyBanner'));
     }
 
     /**
@@ -23,7 +23,7 @@ class VacancyBannerController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.vacancy.vacancy-banner.vacancyCreate');
+        return view('admin.pages.vacancy.banner.create');
     }
 
     /**
@@ -62,7 +62,7 @@ class VacancyBannerController extends Controller
      */
     public function edit(VacancyBanner $vacancyBanner)
     {
-        return view('admin.pages.vacancy.vacancy-banner.vacancyEdit', compact('vacancyBanner'));
+        return view('admin.pages.vacancy.banner.edit', compact('vacancyBanner'));
     }
 
     /**

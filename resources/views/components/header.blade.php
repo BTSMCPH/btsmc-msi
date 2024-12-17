@@ -75,8 +75,8 @@
                             <li><a href="blog-details.html">News Details</a></li>
                         </ul>
                     </li>-->
-                    <li class="{{ request()->routeIs('career') ? 'current' : '' }}">
-                        <a href="contact"> {{ __('Contact') }} </a>
+                    <li class="{{ request()->routeIs('contact') ? 'current' : '' }}">
+                        <a href="{{ route('contact') }}"> {{ __('Contact') }} </a>
                     </li>
                 </ul>
             </nav><!-- /.main-header__nav -->

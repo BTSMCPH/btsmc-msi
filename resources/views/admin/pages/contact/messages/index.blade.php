@@ -1,9 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('About us') }}
+        {{ __('Messages') }}
     </x-slot>
 
     <div class="p-4 bg-white rounded-lg shadow-xs">
-        {{ __('SOON TO OPEN') }}
+        {{ __('Sample static text page') }}
     </div>
 </x-app-layout>

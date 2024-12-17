@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\CareerController;
+use App\Http\Controllers\ContactBannerController;
 use App\Http\Controllers\Guest\AboutController as GuestAboutController;
 use App\Http\Controllers\Guest\CareerController as GuestCareerController;
+use App\Http\Controllers\Guest\ContactController as GuestContactController;
 use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use App\Http\Controllers\Guest\VacancyController as GuestVacancyController;
 use App\Http\Controllers\HomeController;
@@ -11,6 +13,7 @@ use App\Http\Controllers\JobController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacancyBannerController;
+use App\Http\Controllers\VacancyContentController;
 use App\Http\Controllers\VacancyController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,8 +31,10 @@ use Illuminate\Support\Facades\Route;
 // Guest Routes
 Route::get('/', [GuestHomeController::class, 'index'])->name('welcome');
 Route::get('/about', [GuestAboutController::class, 'index'])->name('about');
-ROute::get('/career', [GuestCareerController::class, 'index'])->name('career');
+Route::get('/career', [GuestCareerController::class, 'index'])->name('career');
+Route::get('/contact', [GuestContactController::class, 'index'])->name('contact');
 Route::get('/vacancies', [GuestVacancyController::class, 'index'])->name('vacancy');
+Route::post('/contact/send', [GuestContactController::class, 'send'])->name('contact.send')->middleware('throttle:3,1');;
 
 // Authenticated Routes
 Route::middleware(['auth'])->prefix('admin')->group(function () {
@@ -40,7 +45,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::resource('vacancy', VacancyController::class);
     Route::resource('vacancy-banner', VacancyBannerController::class);
+    Route::resource('content', VacancyContentController::class);
     Route::resource('job', JobController::class);
+
+    Route::resource('contact-banner', ContactBannerController::class);
 
     // Custom route to update status
     Route::post('/job/update-status/{job}', [JobController::class, 'updateStatus'])->name('job.update-status');

@@ -4,6 +4,6 @@
     </x-slot>
 
     <div class="p-4 bg-white rounded-lg shadow-xs">
-        {{ __('Sample static text page') }}
+        {{ __('SOON TO OPEN') }}
     </div>
 </x-app-layout>

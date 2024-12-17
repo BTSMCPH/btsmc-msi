@@ -6,6 +6,7 @@ use App\Models\Job;
 use App\Models\Vacancy;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Models\VacancyBanner;
 use App\Http\Controllers\Controller;
 use App\Services\GuestVacancyService;
 
@@ -23,6 +24,8 @@ class VacancyController extends Controller
         // Get categorized active jobs from the service
         $job_lists = $this->vacancyService->getActiveJobLists($request);
 
-        return view('pages.vacancy', ['job_lists' => $job_lists]);
+        $vacancyBanner = VacancyBanner::first();
+
+        return view('pages.vacancy', ['job_lists' => $job_lists, 'vacancyBanner' => $vacancyBanner]);
     }
 }

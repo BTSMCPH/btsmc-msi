@@ -45,7 +45,7 @@ class JobController extends Controller
             ]);
         }
 
-        return view('admin.pages.vacancy.jobs.jobIndex');
+        return view('admin.pages.vacancy.jobs.index');
     }
 
     /**
@@ -53,7 +53,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.vacancy.jobs.jobCreate');
+        return view('admin.pages.vacancy.jobs.create');
     }
 
     /**
@@ -76,7 +76,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        return view('admin.pages.vacancy.jobs.jobShow', compact('job'));
+        return view('admin.pages.vacancy.jobs.show', compact('job'));
     }
 
 

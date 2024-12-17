@@ -122,38 +122,65 @@
 
   if ($(".contact-form-validated").length) {
     $(".contact-form-validated").validate({
-      // initialize the plugin
-      rules: {
-        name: {
-          required: true
+        // Initialize the plugin
+        rules: {
+            name: {
+                required: true
+            },
+            email: {
+                required: true,
+                email: true
+            },
+            message: {
+                required: true
+            },
+            phone: {
+                required: true
+            }
         },
-        email: {
-          required: true,
-          email: true
-        },
-        message: {
-          required: true
-        },
-        subject: {
-          required: true
+        submitHandler: function (form) {
+            // Disable the submit button to prevent multiple clicks
+            var submitButton = $(form).find('button[type="submit"]');
+            submitButton.prop('disabled', true);
+            submitButton.html('<span>Sending...</span>');
+
+            // Sending value with AJAX request
+            $.ajax({
+                url: $(form).attr("action"),
+                method: 'POST',
+                data: $(form).serialize(),
+                beforeSend: function() {
+                    // Optionally show a loading message
+                    $('#contact-form-message').html('<div class="alert alert-info">Sending your message...</div>').show();
+                },
+                success: function (response) {
+                    if (response.success) {
+                        $('#contact-form-message').html('<div class="alert alert-success">' + response.success + '</div>').show();
+
+                        // Optionally clear the form fields
+                        $(form).find('input[type="text"]').val("");
+                        $(form).find('input[type="email"]').val("");
+                        $(form).find("textarea").val("");
+
+                        // Re-enable the button after successful submission
+                        submitButton.prop('disabled', false);
+                        submitButton.html('<span>Send a message</span>'); // Reset button text
+                    }
+                },
+                error: function (xhr) {
+                    var errorMessage = xhr.responseJSON.error || 'There was an issue submitting the form.';
+                    $('#contact-form-message').html('<div class="alert alert-danger">' + errorMessage + '</div>').show();
+
+                    // Re-enable the button after error
+                    submitButton.prop('disabled', false);
+                    submitButton.html('<span>Send a message</span>'); // Reset button text
+                }
+            });
+            return false; // Prevent form from reloading the page
         }
-      },
-      submitHandler: function (form) {
-        // sending value with ajax request
-        $.post(
-          $(form).attr("action"),
-          $(form).serialize(),
-          function (response) {
-            $(form).parent().find(".result").append(response);
-            $(form).find('input[type="text"]').val("");
-            $(form).find('input[type="email"]').val("");
-            $(form).find("textarea").val("");
-          }
-        );
-        return false;
-      }
     });
-  }
+}
+
 
   // mailchimp form
   if ($(".mc-form").length) {

@@ -1,21 +1,30 @@
 <x-welcome-guest-layout>
     <section class="page-header">
-        <div class="page-header__bg"></div>
-        <div class="page-header__shape"><img src="assets/images/shapes/page-header-shape.png" alt="hiredots"></div>
-        <!-- /.page-header__bg -->
+
+        <!-- Dynamic Background Image -->
+        <div class="page-header__bg"
+            style="background-image: url('{{ $vacancyBanner && $vacancyBanner->image_path ? asset($vacancyBanner->image_path) : asset('assets/images/backgrounds/page-header-bg-about.jpg') }}');">
+        </div>
+
+        <div class="page-header__shape">
+            <img src="{{ asset('assets/images/shapes/page-header-shape.png') }}" alt="Default Vacancy Banner">
+        </div>
+
         <div class="container" style="margin-top:-100px;">
-            <h2 class="page-header__title" style="margin-bottom:8px">Why Join Us?</h2>
+            <h2 class="page-header__title" style="margin-bottom:8px">
+                {{ $vacancyBanner->title ?? 'Why Join Us?' }}
+            </h2>
             <div style="width:360px">
-                <p style="color: #fff; font-size: 19px;">Make an impact. Grow your career. Be part of something big.
-                    Join our team at BTSMC Managing Solutions, Inc. and help us shape the future. Explore our open
-                    positions today!</p>
+                <p style="color: #fff; font-size: 19px;">
+                    {{ $vacancyBanner->description ?? 'Make an impact. Grow your career. Be part of something big. Join our team at BTSMC Managing Solutions, Inc. and help us shape the future. Explore our open positions today!' }}
+                </p>
             </div>
             <ul class="hiredots-breadcrumb list-unstyled">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="{{ route('welcome') }}">Home</a></li>
                 <li><span>Vacancies</span></li>
-            </ul><!-- /.thm-breadcrumb list-unstyled -->
-        </div><!-- /.container -->
-    </section><!-- /.page-header -->
+            </ul>
+        </div>
+    </section>
 
     <section class="faq-page-search" style="padding: 25px 0;">
         <div class="container">
