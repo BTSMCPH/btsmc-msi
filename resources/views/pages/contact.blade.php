@@ -1,5 +1,5 @@
 <x-welcome-guest-layout>
-    <section class="page-header">
+    {{-- <section class="page-header">
         <div class="page-header__bg"></div>
         <div class="page-header__shape"><img src="assets/images/shapes/page-header-shape.png" alt="hiredots"></div>
         <!-- /.page-header__bg -->
@@ -10,7 +10,28 @@
                 <li><span>Contact</span></li>
             </ul><!-- /.thm-breadcrumb list-unstyled -->
         </div><!-- /.container -->
-    </section><!-- /.page-header -->
+    </section> --}}
+    <section class="page-header">
+
+        <!-- Dynamic Background Image -->
+        <div class="page-header__bg"
+            style="background-image: url('{{ $contactBanner && $contactBanner->image_path ? asset($contactBanner->image_path) : asset('assets/images/backgrounds/page-header-bg-about.jpg') }}');">
+        </div>
+
+        <div class="page-header__shape">
+            <img src="{{ asset('assets/images/shapes/page-header-shape.png') }}" alt="Default Contact Banner">
+        </div>
+
+        <div class="container">
+            <h2 class="page-header__title">
+                {{ $contactBanner->title ?? 'Why Join Us?' }}
+            </h2>
+            <ul class="hiredots-breadcrumb list-unstyled">
+                <li><a href="{{ route('welcome') }}">Home</a></li>
+                <li><span>Vacancies</span></li>
+            </ul>
+        </div>
+    </section>
     <section class="contact-one pt-100 pb-100">
         <div class="container">
             <div class="contact-one__inner">
@@ -76,28 +97,52 @@
                                 <div style="display:none;">
                                     <input type="text" name="website" value="" />
                                 </div>
+
                                 <div class="form-one__group">
+
+                                    <!-- Name Field -->
                                     <div class="form-one__control form-one__control--full">
-                                        <input type="text" name="name" placeholder="Your name">
-                                    </div>
-                                    <div class="form-one__control form-one__control--full">
-                                        <input type="email" name="email" placeholder="Email address">
-                                    </div>
-                                    <div class="form-one__control form-one__control--full">
-                                        <input type="text" name="phone" placeholder="Phone number">
+                                        <input type="text" name="name" placeholder="Your name"
+                                            value="{{ old('name') }}">
+                                        @error('name')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
 
+                                    <!-- Email Field -->
                                     <div class="form-one__control form-one__control--full">
-                                        <textarea name="message" placeholder="Write a message"></textarea>
+                                        <input type="email" name="email" placeholder="Email address"
+                                            value="{{ old('email') }}">
+                                        @error('email')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
+
+                                    <!-- Phone Field -->
+                                    <div class="form-one__control form-one__control--full">
+                                        <input type="text" name="phone" placeholder="Phone number"
+                                            value="{{ old('phone') }}">
+                                        @error('phone')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Message Field -->
+                                    <div class="form-one__control form-one__control--full">
+                                        <textarea name="message" placeholder="Write a message">{{ old('message') }}</textarea>
+                                        @error('message')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
                                     <div class="form-one__control form-one__control--full">
                                         <button type="submit" class="hiredots-btn hiredots-btn--white">
                                             <span>Send a message</span>
                                         </button>
                                     </div>
+
                                 </div>
                             </form>
-
                         </div>
 
                     </div><!-- /.col-lg-6 -->

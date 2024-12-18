@@ -164,7 +164,7 @@
 
                         // Re-enable the button after successful submission
                         submitButton.prop('disabled', false);
-                        submitButton.html('<span>Send a message</span>'); // Reset button text
+                        submitButton.html('<span>Send a message</span>');
                     }
                 },
                 error: function (xhr) {
@@ -173,10 +173,10 @@
 
                     // Re-enable the button after error
                     submitButton.prop('disabled', false);
-                    submitButton.html('<span>Send a message</span>'); // Reset button text
+                    submitButton.html('<span>Send a message</span>');
                 }
             });
-            return false; // Prevent form from reloading the page
+            return false;
         }
     });
 }

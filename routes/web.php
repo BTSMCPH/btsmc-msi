@@ -10,6 +10,7 @@ use App\Http\Controllers\Guest\HomeController as GuestHomeController;
 use App\Http\Controllers\Guest\VacancyController as GuestVacancyController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VacancyBannerController;
@@ -47,6 +48,23 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('vacancy-banner', VacancyBannerController::class);
     Route::resource('content', VacancyContentController::class);
     Route::resource('job', JobController::class);
+
+    Route::controller(MessageController::class)->group(function () {
+        Route::get('/messages', 'index')->name('messages.index');
+        Route::get('/messages/trashed', 'trashed')->name('messages.trashed');
+        Route::get('messages/{message}', 'show')->name('messages.show');
+        Route::delete('/messages/{message}', 'destroy')->name('messages.destroy');
+        Route::put('/messages/{message}/restore', 'restore')->name('messages.restore'); // Ensure this uses PUT
+        Route::delete('/messages/{message}/force-delete', 'forceDelete')->name('messages.forceDelete'); // Force delete should remain DELETE
+    });
+
+
+    // Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    // Route::get('/messages/trashed', [MessageController::class, 'trashed'])->name('messages.trashed');
+    // Route::get('/messages/{id}', [MessageController::class, 'show'])->name('messages.show');
+    // Route::delete('/messages/{id}', [MessageController::class, 'destroy'])->name('messages.destroy');
+    // Route::post('/messages/{id}/restore', [MessageController::class, 'restore'])->name('messages.restore');
+    // Route::delete('/messages/{id}/force-delete', [MessageController::class, 'forceDelete'])->name('messages.forceDelete');
 
     Route::resource('contact-banner', ContactBannerController::class);
 

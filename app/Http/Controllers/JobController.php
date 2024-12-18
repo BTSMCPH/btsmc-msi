@@ -85,7 +85,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        return view('admin.pages.vacancy.jobs.jobEdit', compact('job'));
+        return view('admin.pages.vacancy.jobs.edit', compact('job'));
     }
 
     /**
@@ -119,16 +119,13 @@ class JobController extends Controller
      */
     public function updateStatus(Request $request, Job $job)
     {
-        // Validate the incoming status
         $validated = $request->validate([
             'status' => 'required|in:active,inactive',
         ]);
 
-        // Update the job status
         $job->status = $validated['status'];
         $job->save();
 
-        // Return a JSON response
         return response()->json(['status' => $job->status]);
     }
 }

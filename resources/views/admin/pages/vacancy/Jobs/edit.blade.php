@@ -21,7 +21,7 @@
         </div>
     </x-slot>
 
-    <div class="p-4 bg-white rounded-lg shadow-xs">
+    <div class="p-4 mb-6 bg-white rounded-lg shadow-xs">
         <form action="{{ route('job.update', $job->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -133,7 +133,7 @@
 
             <!-- Submit Button -->
             <div class="mt-4">
-                <button type="submit" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+                <button type="submit" class="px-4 py-2 font-bold text-white uppercase bg-blue-500 rounded-lg float-end hover:bg-blue-600">
                     {{ __('Update') }}
                 </button>
             </div>

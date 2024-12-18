@@ -34,9 +34,13 @@ class GuestVacancyService
             $queryKey = 'page_' . str_replace(' ', '_', $category);
 
             // Fetch paginated results for each category based on the specific query parameter
-            $job_lists[$category] = Job::where('category', $category)
+            $jobs = Job::where('category', $category)
                                         ->where('status', 1)
                                         ->paginate(3, ['*'], $queryKey);
+
+            if ($jobs->total() > 0) {
+                $job_lists[$category] = $jobs;
+            }
         }
 
         return $job_lists;

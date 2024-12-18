@@ -11,19 +11,23 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Cache;
 use App\Mail\ContactMessageNotification;
+use App\Models\ContactBanner;
 use Illuminate\Support\Facades\RateLimiter;
 
 class ContactController extends Controller
 {
     public function index(): View
     {
-        return view('pages.contact');
+        $contactBanner = ContactBanner::first();
+
+        return view('pages.contact', compact('contactBanner'));
     }
 
     public function send(Request $request)
     {
         $key = 'contact-form:' . $request->ip();
         $maxAttempts = 3;
+        $decayMinutes = 1;
 
         if (RateLimiter::tooManyAttempts($key, $maxAttempts)) {
             return response()->json(['error' => 'Too many requests. Please try again later.'], 429);
