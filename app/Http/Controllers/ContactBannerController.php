@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContactBanner;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreContactBannerRequest;
-use App\Http\Requests\UpdateContactBannerRequest;
 use Spatie\ImageOptimizer\OptimizerChainFactory;
+use App\Http\Requests\UpdateContactBannerRequest;
 
 class ContactBannerController extends Controller
 {
@@ -74,11 +75,27 @@ class ContactBannerController extends Controller
 
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $path = $image->storeAs('vacancy_banners', time() . '.' . $image->getClientOriginalExtension(), 'public');
+            $path = $image->storeAs('contact_banners', time() . '.' . $image->getClientOriginalExtension(), 'public');
             $fullPath = public_path('storage/' . $path);
-            $optimizer = OptimizerChainFactory::create();
-            $optimizer->optimize($fullPath);
 
+            // Log the size before optimization
+            $beforeSize = filesize($fullPath);
+            Log::info("Before optimization: $beforeSize bytes");
+
+            // Optimize the image
+            try {
+                $optimizerChain = \Spatie\ImageOptimizer\OptimizerChainFactory::create();
+                $optimizerChain->useLogger(app('log'));
+                $optimizerChain->optimize($fullPath);
+            } catch (\Exception $e) {
+                Log::error('Image optimization failed: ' . $e->getMessage());
+            }
+
+            // Log the size after optimization
+            $afterSize = filesize($fullPath);
+            Log::info("After optimization: $afterSize bytes");
+
+            // Delete the old image
             if ($contactBanner->image_path && file_exists(public_path($contactBanner->image_path))) {
                 unlink(public_path($contactBanner->image_path));
             }
