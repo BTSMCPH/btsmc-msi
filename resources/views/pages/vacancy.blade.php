@@ -112,7 +112,7 @@
                                             </div>
                                             <p style="text-align:center">
                                                 <a href="https://btsmcph.com/recruitment/pre-emp-app.php?job_id={{ urlencode($job['id']) }}"
-                                                    class="hiredots-btn hiredots-btn--base">
+                                                    class="hiredots-btn hiredots-btn--base" target="_blank">
                                                     <span>Click here to Apply</span>
                                                 </a>
                                             </p>

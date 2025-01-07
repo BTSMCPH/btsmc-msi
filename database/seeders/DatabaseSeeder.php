@@ -22,7 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             // VacancySeeder::class,
             JobSeeder::class,
-            AdminSeeder::class
+            AdminSeeder::class,
+            RolesAndPermissionsSeeder::class,
+            ContactMessagesSeeder::class,
         ]);
     }
 }

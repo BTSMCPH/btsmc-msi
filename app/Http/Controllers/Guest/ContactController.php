@@ -74,4 +74,6 @@ class ContactController extends Controller
             return response()->json(['error' => 'There was an issue sending your message. Please try again later.'], 500);
         }
     }
+
+
 }

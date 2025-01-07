@@ -38,12 +38,12 @@
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">Services</a>
+                        <a href="{{ route('services') }}">{{ __('Services') }}</a>
                         <ul>
-                            <li><a href="#">Payroll Solutions</a></li>
-                            <li><a href="#">Human Resources Solution</a></li>
-                            <li><a href="#">Contracting & Sub-Contracting</a></li>
-                            <li> <a href="#">Visas & Work Permits</a></li>
+                            <li><a href="{{ route('services.payroll') }}">Payroll Solutions</a></li>
+                            <li><a href="{{ route('services.hr') }}">Human Resources Solution</a></li>
+                            <li><a href="{{ route('services.contracting') }}">Contracting & Sub-Contracting</a></li>
+                            <li> <a href="{{ route('services.visa-work-permit') }}">Visas & Work Permits</a></li>
                         </ul>
                     </li>
 

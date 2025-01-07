@@ -181,7 +181,6 @@
     });
 }
 
-
   // mailchimp form
   if ($(".mc-form").length) {
     $(".mc-form").each(function () {

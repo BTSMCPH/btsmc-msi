@@ -23,7 +23,7 @@ class UpdateContactBannerRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'image' => 'required|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'image' => 'required|image|mimes:jpg,jpeg,png,gif',
         ];
     }
 }

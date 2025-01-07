@@ -67,7 +67,12 @@ class JobService
                 'schedule' => $job->schedule,
                 'job_requirements' => '<div class="truncate-ellipsis" title="' . $job->job_requirements . '">' . Str::limit(strip_tags($job->job_requirements), 50) . '</div>',
                 'job_description' => '<div class="truncate-ellipsis" title="' . $job->job_description . '">' . Str::limit(strip_tags($job->job_description), 50) . '</div>',
-                'category' => $job->category,
+                'category' => '<span class="inline-block text-center px-2 py-0.5 text-sm font-medium text-white rounded-full '
+                    . (str_word_count($job->category) > 1 ? 'text-xs px-1' : 'text-xs px-2')
+                    . ($job->category === 'TECHNICAL POSITION' ? ' bg-green-500'
+                    : ($job->category === 'BACK OFFICE SUPPORT' ? ' bg-yellow-500'
+                    : ' bg-gray-500'))
+                    . '">' . $job->category . '</span>',
                 'status' => $this->generateStatusToggle($job),
                 'actions' => '<div class="flex items-center gap-5 justify-first">
                 <div class="flex items-center justify-center">

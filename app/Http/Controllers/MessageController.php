@@ -14,11 +14,58 @@ class MessageController extends Controller
      */
     public function index(): View
     {
-        // Get all non-deleted messages, order by latest
-        $messages = Message::orderBy('created_at', 'desc')->paginate(10);
+        // $messages = Message::orderBy('created_at', 'desc')->paginate(10);
 
-        // Pass messages to the admin view
-        return view('admin.pages.contact.messages.index', compact('messages'));
+        return view('admin.pages.contact.messages.index');
+    }
+
+    /**
+     * Fetch messages dynimically for DataTable.
+     */
+    public function fetchMessages(Request $request)
+    {
+        $messagesQuery = Message::query();
+
+        // Apply any global search
+        if ($request->has('search') && $request->search['value']) {
+            $messagesQuery->where('name', 'like', '%' . $request->search['value'] . '%')
+                ->orWhere('email', 'like', '%' . $request->search['value'] . '%')
+                ->orWhere('phone', 'like', '%' . $request->search['value'] . '%')
+                ->orWhere('message', 'like', '%' . $request->search['value'] . '%');
+        }
+
+        // Apply sorting
+        if ($request->has('order')) {
+            $orderColumn = $request->columns[$request->order[0]['column']]['data'];
+            $orderDirection = $request->order[0]['dir'];
+            $messagesQuery->orderBy($orderColumn, $orderDirection);
+        } else {
+            // Default sorting: Show the latest messages first
+            $messagesQuery->orderBy('created_at', 'desc');
+        }
+
+        // Apply pagination
+        $length = $request->get('length', 12);
+        $start = $request->get('start', 0);
+        $messages = $messagesQuery->skip($start)->take($length)->get();
+
+        // Return the response in DataTables format
+        return response()->json([
+            'draw' => $request->get('draw'),
+            'recordsTotal' => Message::count(),
+            'recordsFiltered' => $messagesQuery->count(), // Use filtered count
+            'data' => $messages->map(function ($message) {
+                return [
+                    'id' => $message->id,
+                    'name' => $message->name,
+                    'email' => $message->email,
+                    'phone' => $message->phone,
+                    'message' => $message->message,
+                    'created_at' => $message->created_at->format('M d, Y h:i A'),
+                    'actions' => view('admin.pages.contact.messages.partials.actions', compact('message'))->render()
+                ];
+            })
+        ]);
     }
 
     /**
@@ -26,10 +73,8 @@ class MessageController extends Controller
      */
     public function trashed(): View
     {
-        // Get all soft-deleted messages
         $messages = Message::onlyTrashed()->orderBy('deleted_at', 'desc')->paginate(10);
 
-        // Pass messages to the trash view
         return view('admin.pages.contact.messages.trashed', compact('messages'));
     }
 
@@ -38,7 +83,6 @@ class MessageController extends Controller
      */
     public function show(Message $message): View
     {
-        // Get the specific message, including soft-deleted ones
         $message = Message::withTrashed()->findOrFail($message->id);
 
         return view('admin.pages.contact.messages.show', compact('message'));
@@ -57,20 +101,23 @@ class MessageController extends Controller
     /**
      * Restore a soft-deleted message.
      */
-    public function restore(Message $message): RedirectResponse
+    public function restore($id): RedirectResponse
     {
-        \dd($message);
+        $message = Message::withTrashed()->findOrFail($id);
 
         $message->restore();
 
         return redirect()->route('messages.trashed')->with('success', 'Message restored successfully.');
     }
 
+
     /**
      * Permanently delete a message from the trash.
      */
-    public function forceDelete(Message $message): RedirectResponse
+    public function forceDelete($id): RedirectResponse
     {
+        $message = Message::withTrashed()->findOrFail($id);
+
         $message->forceDelete();
 
         return redirect()->route('messages.trashed')->with('success', 'Message permanently deleted.');
