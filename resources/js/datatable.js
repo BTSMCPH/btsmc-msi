@@ -6,6 +6,7 @@ var messagesFetchUrl = "/admin/messages/fetch";
         $('#messages-table').DataTable({
             responsive: true,
             processing: true,
+            paging: true,
             serverSide: true,
             order: 'asc',
             ajax: {

@@ -83,9 +83,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/admin-settings/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/admin-settings/users/create', [UserController::class, 'create'])->name('users.create');
     Route::post('/admin-settings/users', [UserController::class, 'store'])->name('users.store');
+    Route::get('/admin-settings/users/show/{user}', [UserController::class, 'show'])->name('users.show');
     Route::get('/admin-settings/users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
     Route::patch('/admin-settings/users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::delete('/admin-settings/users/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::patch('/admin-settings/users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+    Route::post('admin-settings/users/{user}/update-status', [UserController::class, 'updateStatus'])->name('users.update-status');
 
     Route::get('/admin-settings/permissions', [PermissionController::class, 'index'])->name('permissions.index');
     Route::get('/admin-settings/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');

@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Auth\Events\Lockout;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
+use App\Rules\AccountIsActive;
+use Illuminate\Auth\Events\Lockout;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Validation\ValidationException;
 
 class LoginRequest extends FormRequest
@@ -27,7 +28,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string', 'email', new AccountIsActive],
             'password' => ['required', 'string'],
         ];
     }
@@ -46,6 +47,15 @@ class LoginRequest extends FormRequest
 
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        $user = Auth::user();
+        if ($user->status !== 'active') {
+            Auth::logout();
+
+            throw ValidationException::withMessages([
+                'email' => __('Your account is inactive. Please contact support.'),
             ]);
         }
 

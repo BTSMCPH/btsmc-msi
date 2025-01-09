@@ -34,7 +34,7 @@
                 </x-nav-link>
             </li> --}}
 
-            <li class="relative px-6 py-3">
+            {{-- <li class="relative px-6 py-3">
                 <x-nav-link href="{{ route('users.index') }}" :active="request()->routeIs('users.index')">
                     <x-slot name="icon">
                         <svg class="w-5 h-5" aria-hidden="true" fill="none" stroke-linecap="round"
@@ -46,7 +46,7 @@
                     </x-slot>
                     {{ __('About us') }}
                 </x-nav-link>
-            </li>
+            </li> --}}
 
             <li class="relative px-6 py-3">
                 <x-nav-link href="{{ route('career.index') }}" :active="request()->routeIs('career.index')">

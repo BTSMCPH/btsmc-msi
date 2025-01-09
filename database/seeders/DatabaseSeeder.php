@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             RolesAndPermissionsSeeder::class,
             ContactMessagesSeeder::class,
+            UserAccountSeeder::class,
         ]);
     }
 }

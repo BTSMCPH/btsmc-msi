@@ -21,7 +21,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'position',
+        'department',
+        'status',
+        'password'
     ];
 
     /**
@@ -45,22 +48,42 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
+    /**
+     * Define a relationship with the Role model (many-to-many).
+     */
     public function roles()
     {
         return $this->belongsToMany(Role::class)->cacheFor(now()->addMinutes(60));
     }
 
+    /**
+     * Check if the user has a specific role.
+     *
+     * @param string $role
+     * @return bool
+     */
     public function hasRole(string $role): bool
     {
         return $this->roles()->where('slug', $role)->exists();
     }
 
+    /**
+     * Check if the user has a specific permission.
+     *
+     * @param string $permission
+     * @return bool
+     */
     public function hasPermission(string $permission): bool
     {
-        return $this->roles->flatMap(fn (Role $role) => $role->permissions)->pluck('slug')->contains($permission);
+        return $this->roles->flatMap(fn(Role $role) => $role->permissions)->pluck('slug')->contains($permission);
 
         // return $this->roles()->whereHas('permissions', function ($query) use ($permissionSlug) {
         //     $query->where('slug', $permissionSlug);
         // })->exists();
+    }
+
+    public function isActive(): bool
+    {
+        return $this->status === 'active';
     }
 }
