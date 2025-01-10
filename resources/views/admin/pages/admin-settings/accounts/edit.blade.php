@@ -1,89 +1,85 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Edit User') }}
+        {{ __('Edit Account') }}
     </x-slot>
 
-    <div class="p-4 bg-white rounded-lg shadow-xs">
-        <form method="POST" action="{{ route('users.update', $user->id) }}">
+    <section class="p-4 space-y-6 bg-white rounded-lg shadow-xs">
+        <header>
+            <h2 class="text-lg font-medium text-gray-900">{{ __('Edit Account') }}</h2>
+            <p class="mt-1 text-sm text-gray-600">
+                {{ __('Update the user details below.') }}
+            </p>
+        </header>
+
+        <form method="POST" action="{{ route('users.update', $user->id) }}" class="space-y-6">
             @csrf
-            @method('PATCH')
+            @method('PUT')
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Two-column Grid Layout -->
+            <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <!-- Name -->
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">{{ __('Name') }}</label>
-                    <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}"
-                        class="form-input w-full @error('name') border-red-500 @enderror" required>
-                    @error('name')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="name" :value="__('Name')" />
+                    <x-text-input id="name" name="name" type="text" class="block w-full mt-1" :value="old('name', $user->name)" required autofocus />
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
                 </div>
 
+                <!-- Email -->
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">{{ __('Email') }}</label>
-                    <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}"
-                        class="form-input w-full @error('email') border-red-500 @enderror" required>
-                    @error('email')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="email" :value="__('Email')" />
+                    <x-text-input id="email" name="email" type="email" class="block w-full mt-1" :value="old('email', $user->email)" required />
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
+                <!-- Position -->
                 <div>
-                    <label for="position" class="block text-sm font-medium text-gray-700">{{ __('Position') }}</label>
-                    <input type="text" name="position" id="position" value="{{ old('position', $user->position) }}"
-                        class="form-input w-full @error('position') border-red-500 @enderror">
-                    @error('position')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="position" :value="__('Position')" />
+                    <x-text-input id="position" name="position" type="text" class="block w-full mt-1" :value="old('position', $user->position)" />
+                    <x-input-error :messages="$errors->get('position')" class="mt-2" />
                 </div>
 
+                <!-- Department -->
                 <div>
-                    <label for="department"
-                        class="block text-sm font-medium text-gray-700">{{ __('Department') }}</label>
-                    <input type="text" name="department" id="department"
-                        value="{{ old('department', $user->department) }}"
-                        class="form-input w-full @error('department') border-red-500 @enderror">
-                    @error('department')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="department" :value="__('Department')" />
+                    <x-text-input id="department" name="department" type="text" class="block w-full mt-1" :value="old('department', $user->department)" />
+                    <x-input-error :messages="$errors->get('department')" class="mt-2" />
                 </div>
 
+                <!-- Password -->
                 <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700">{{ __('Status') }}</label>
-                    <select name="status" id="status" class="form-select w-full @error('status') border-red-500 @enderror" required>
-                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>Active</option>
-                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                    </select>
-                    @error('status')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="password" :value="__('Password')" />
+                    <x-text-input id="password" name="password" type="password" class="block w-full mt-1" />
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
+                <!-- Confirm Password -->
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">{{ __('Password') }}</label>
-                    <input type="password" name="password" id="password"
-                        class="form-input w-full @error('password') border-red-500 @enderror">
-                    @error('password')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                    <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="block w-full mt-1" />
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
                 </div>
 
+                <!-- Status -->
                 <div>
-                    <label for="password_confirmation"
-                        class="block text-sm font-medium text-gray-700">{{ __('Confirm Password') }}</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation"
-                        class="form-input w-full @error('password_confirmation') border-red-500 @enderror">
-                    @error('password_confirmation')
-                        <span class="text-red-500 text-xs">{{ $message }}</span>
-                    @enderror
+                    <x-input-label for="status" :value="__('Status')" />
+                    <x-select id="status" name="status" class="block w-full mt-1" required>
+                        <option value="active" {{ old('status', $user->status) == 'active' ? 'selected' : '' }}>{{ __('Active') }}</option>
+                        <option value="inactive" {{ old('status', $user->status) == 'inactive' ? 'selected' : '' }}>{{ __('Inactive') }}</option>
+                    </x-select>
+                    <x-input-error :messages="$errors->get('status')" class="mt-2" />
                 </div>
             </div>
 
-            <div class="mt-4">
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    {{ __('Update') }}
-                </button>
-                <a href="{{ route('users.index') }}" class="text-gray-600 hover:underline">{{ __('Cancel') }}</a>
+            <!-- Buttons -->
+            <div class="flex justify-end">
+                <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                    {{ __('Cancel') }}
+                </a>
+
+                <x-primary-button class="ms-3">
+                    {{ __('Save') }}
+                </x-primary-button>
             </div>
         </form>
-    </div>
+    </section>
 </x-app-layout>

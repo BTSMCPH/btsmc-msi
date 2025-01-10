@@ -74,7 +74,7 @@ class JobService
                     : ' bg-gray-500'))
                     . '">' . $job->category . '</span>',
                 'status' => $this->generateStatusToggle($job),
-                'actions' => '<div class="flex items-center gap-5 justify-first">
+                'actions' => '<div class="flex items-center gap-2 justify-first">
                 <div class="flex items-center justify-center">
                     <a href="' . route('job.edit', $job->id) . '" class="flex items-center text-yellow-500 hover:text-yellow-700" style="color: rgb(234 179 8);" title="Edit Jobs">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

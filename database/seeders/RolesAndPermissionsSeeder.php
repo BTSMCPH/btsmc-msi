@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\Permission;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Spatie\Permission\Models\Role as ModelsRole;
 
 class RolesAndPermissionsSeeder extends Seeder
 {
@@ -14,20 +15,8 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = Role::create(['name' => 'Admin', 'slug' => 'admin']);
-        $editor = Role::create(['name' => 'Editor', 'slug' => 'editor']);
-
-        $permissions = [
-            ['name' => 'Edit Post', 'slug' => 'edit-post'],
-            ['name' => 'Delete Post', 'slug' => 'delete-post'],
-            ['name' => 'Manage Users', 'slug' => 'manage-users'],
-        ];
-
-        foreach ($permissions as $permission) {
-            $perm = Permission::create($permission);
-            $admin->permissions()->attach($perm); // Assign all permissions to Admin
-        }
-
-        $editor->permissions()->attach(Permission::where('slug', 'edit-post')->first());
+        $admin = ModelsRole::create(['name' => 'admin']);
+        $recruiter = ModelsRole::create(['name' => 'recruiter']);
+        $user = ModelsRole::create(['name' => 'user']);
     }
 }

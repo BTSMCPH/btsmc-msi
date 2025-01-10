@@ -73,6 +73,20 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
 
+    Route::resource('contact-banner', ContactBannerController::class);
+
+    // Custom route to update status
+    Route::post('/job/update-status/{job}', [JobController::class, 'updateStatus'])->name('job.update-status');
+
+    // Profile
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
+        Route::patch('/', [ProfileController::class, 'update'])->name('update');
+        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
+    });
+});
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/admin-settings/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/admin-settings/roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('/admin-settings/roles', [RoleController::class, 'store'])->name('roles.store');
@@ -96,19 +110,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/admin-settings/permissions/edit/{permission}', [PermissionController::class, 'edit'])->name('permissions.edit');
     Route::patch('/admin-settings/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
     Route::delete('/admin-settings/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
-
-
-    Route::resource('contact-banner', ContactBannerController::class);
-
-    // Custom route to update status
-    Route::post('/job/update-status/{job}', [JobController::class, 'updateStatus'])->name('job.update-status');
-
-    // Profile
-    Route::prefix('profile')->name('profile.')->group(function () {
-        Route::get('/', [ProfileController::class, 'edit'])->name('edit');
-        Route::patch('/', [ProfileController::class, 'update'])->name('update');
-        Route::delete('/', [ProfileController::class, 'destroy'])->name('destroy');
-    });
 });
 
 

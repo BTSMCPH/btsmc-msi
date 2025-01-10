@@ -22,5 +22,7 @@ class AdminSeeder extends Seeder
             'department' => 'Administration',
             'status' => 'active',
         ]);
+
+        $adminUser->assignRole('admin', 'recruiter', 'user');
     }
 }

@@ -13,10 +13,15 @@ class UserAccountSeeder extends Seeder
      */
     public function run(): void
     {
-        $User = User::create([
+        $user = User::create([
             'email' => 'k.tallod@btsmcph.com',
             'password' => Hash::make('@btsmcph2025'),
             'name' => 'Khenny Mart Tallod',
+            'position' => 'Recruitment Lead',
+            'department' => 'HR',
+            'status' => 'active',
         ]);
+
+        $user->assignRole('recruiter');
     }
 }

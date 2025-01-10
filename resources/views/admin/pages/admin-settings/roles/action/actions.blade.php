@@ -1,24 +1,24 @@
 <div class="flex items-center gap-2 justify-first">
     <div class="flex items-center justify-center">
-        <a href="{{ route('users.edit', $user->id) }}" class="flex items-center text-yellow-500 hover:text-yellow-700" title="Edit User">
+        <a href="{{ route('roles.edit', $role->id) }}" class="flex items-center text-yellow-500 hover:text-yellow-700" title="Edit User">
             <!-- SVG Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
             </svg>
         </a>
     </div>
-    <div class="flex items-center justify-center">
-        <a href="{{ route('users.show', $user->id) }}" class="flex items-center text-blue-500 hover:text-blue-700" title="View User">
+    {{-- <div class="flex items-center justify-center">
+        <a href="{{ route('roles.show', $role->id) }}" class="flex items-center text-blue-500 hover:text-blue-700" title="View User">
             <!-- SVG Icon -->
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
             </svg>
         </a>
-    </div>
-    @if(!$user->trashed())
+    </div> --}}
+    {{-- @if(!$role->trashed())
         <div class="flex items-center justify-center">
-            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline-block">
+            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="inline-block">
                 @csrf
                 @method('DELETE')
                 <button type="submit" class="flex items-center text-red-500 hover:text-red-700" title="Delete User">
@@ -30,14 +30,14 @@
             </form>
         </div>
     @endif
-    @if($user->trashed()) <!-- Only show restore action for trashed users -->
+    @if($role->trashed()) <!-- Only show restore action for trashed users -->
         <div class="flex items-center justify-center">
-            <form action="{{ route('user.restore', $user->id) }}" method="POST" class="inline-block">
+            <form action="{{ route('roles.restore', $role->id) }}" method="POST" class="inline-block">
                 @csrf
                 <button type="submit" class="flex items-center text-green-500 hover:text-green-700" title="Restore User">
                     <!-- SVG Icon -->
                 </button>
             </form>
         </div>
-    @endif
+    @endif --}}
 </div>

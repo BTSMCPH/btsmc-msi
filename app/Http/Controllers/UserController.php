@@ -26,9 +26,9 @@ class UserController extends Controller
             $page = ($start / $length) + 1;
 
             $filters = $request->all();
-            $showTrashed = $request->get('showTrashed', false);
+            // $showTrashed = $request->get('showTrashed', false);
 
-            $users = $this->userService->getUsers($filters, $length, $page, $showTrashed);
+            $users = $this->userService->getUsers($filters, $length, $page);
 
             $data = $this->userService->mapUsersForDataTable($users);
 

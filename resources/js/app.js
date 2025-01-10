@@ -12,6 +12,7 @@ import 'datatables.net-responsive-dt/css/responsive.dataTables.css';
 import './datatable';
 import './job';
 import './user';
+import './role-permission';
 // import './toggle-status';
 
 window.Swal = Swal;

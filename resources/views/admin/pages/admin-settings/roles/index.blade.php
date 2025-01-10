@@ -4,9 +4,8 @@
     </x-slot>
 
     <div class="p-4 bg-white rounded-lg shadow-xs">
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-semibold text-gray-800">{{ __('User Accounts') }}</h2>
-            <a href="{{ route('roles.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <div class="flex items-center justify-end mb-4">
+            <a href="{{ route('roles.create') }}" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
                 {{ __('Add New Role') }}
             </a>
         </div>
@@ -18,15 +17,17 @@
             </label>
         </div> --}}
 
-        <table id="user-table" class="min-w-full bg-white divide-y divide-gray-200">
+        <table id="role-table" class="min-w-full bg-white divide-y divide-gray-200 table-auto stripe hover">
             <thead>
                 <tr>
-                    <th>{{ __('Name') }}</th>
-                    <th>{{ __('Slug') }}</th>
-                    <th>{{ __('Actions') }}</th>
+                    <th class="w-1/3 px-4 py-2 text-left">{{ __('Name') }}</th>
+                    <th class="w-1/3 px-4 py-2 text-left">{{ __('Guard Name') }}</th>
+                    <th class="w-1/3 px-4 py-2 text-left">{{ __('Actions') }}</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                <!-- Rows will be dynamically populated via AJAX -->
+            </tbody>
         </table>
     </div>
 </x-app-layout>

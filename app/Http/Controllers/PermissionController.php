@@ -4,17 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use App\Services\RolePermissionService;
 
 class PermissionController extends Controller
 {
+
+    protected $RolePermissionService;
+
+    public function __construct(RolePermissionService $RolePermissionService)
+    {
+        $this->RolePermissionService = $RolePermissionService;
+    }
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $permissions = Permission::all();
+        if ($request->ajax()) {
+            $length = $request->get('length', 10);
+            $start = $request->get('start', 0);
+            $page = ($start / $length) + 1;
 
-        return view('admin.pages.admin-settings.permissions.index', compact('permissions'));
+            $filters = $request->all();
+
+            $permissions = $this->RolePermissionService->getPermissions($filters, $length, $page);
+
+            $data = $this->RolePermissionService->mapPermissionsForDataTable($permissions);
+
+            return response()->json([
+                'data' => $data,
+                'recordsTotal' =>$permissions->total(),
+                'recordsFiltered' => $permissions->total(),
+                'current_page' => $permissions->currentPage(),
+                'last_page' => $permissions->lastPage(),
+            ]);
+        }
+
+        return view('admin.pages.admin-settings.permissions.index');
     }
 
     /**
@@ -30,7 +57,14 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:permissions|max:255',
+            'slug' => 'required|unique:permissions|max:255',
+        ]);
+
+        Permission::create($request->only(['name', 'slug']));
+
+        return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
 
     /**
@@ -46,7 +80,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        //
+        return view('admin.pages.admin-settings.permissions.edit', compact('permission'));
     }
 
     /**
@@ -54,7 +88,14 @@ class PermissionController extends Controller
      */
     public function update(Request $request, Permission $permission)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:255|unique:permissions,name,' . $permission->id,
+            'slug' => 'required|max:255|unique:permissions,slug,' . $permission->id,
+        ]);
+
+        $permission->update($request->only(['name', 'slug']));
+
+        return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
     }
 
     /**
@@ -62,6 +103,8 @@ class PermissionController extends Controller
      */
     public function destroy(Permission $permission)
     {
-        //
+        $permission->delete();
+
+        return redirect()->route('permissions.index')->with('success', 'Permission deleted successfully.');
     }
 }

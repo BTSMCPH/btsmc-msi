@@ -4,9 +4,9 @@
     </x-slot>
 
     <div class="p-4 bg-white rounded-lg shadow-xs">
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center justify-between mb-4">
             <h2 class="text-xl font-semibold text-gray-800">{{ __('User Accounts') }}</h2>
-            <a href="{{ route('users.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+            <a href="{{ route('users.create') }}" class="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
                 {{ __('Add New User') }}
             </a>
         </div>
@@ -18,7 +18,7 @@
             </label>
         </div> --}}
 
-        <table id="user-table" class="min-w-full bg-white divide-y divide-gray-200">
+        <table id="user-table" class="min-w-full bg-white divide-y divide-gray-200 stripe hover">
             <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>

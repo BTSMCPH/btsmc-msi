@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -47,40 +48,6 @@ class User extends Authenticatable
         'deleted_at' => 'datetime',
         'password' => 'hashed',
     ];
-
-    /**
-     * Define a relationship with the Role model (many-to-many).
-     */
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class)->cacheFor(now()->addMinutes(60));
-    }
-
-    /**
-     * Check if the user has a specific role.
-     *
-     * @param string $role
-     * @return bool
-     */
-    public function hasRole(string $role): bool
-    {
-        return $this->roles()->where('slug', $role)->exists();
-    }
-
-    /**
-     * Check if the user has a specific permission.
-     *
-     * @param string $permission
-     * @return bool
-     */
-    public function hasPermission(string $permission): bool
-    {
-        return $this->roles->flatMap(fn(Role $role) => $role->permissions)->pluck('slug')->contains($permission);
-
-        // return $this->roles()->whereHas('permissions', function ($query) use ($permissionSlug) {
-        //     $query->where('slug', $permissionSlug);
-        // })->exists();
-    }
 
     public function isActive(): bool
     {
