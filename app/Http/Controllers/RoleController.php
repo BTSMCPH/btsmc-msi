@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Permission;
 use Illuminate\Http\Request;
 use App\Services\RolePermissionService;
 
@@ -56,12 +57,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:roles|max:255',
-            'slug' => 'required|unique:roles|max:255',
+        $validated = $request->validate([
+            'name' => 'required|unique:roles|max:255'
         ]);
 
-        Role::create($request->only(['name', 'slug']));
+        Role::create($validated);
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
     }
@@ -79,7 +79,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('admin.pages.admin-settings.roles.edit', compact('role'));
+        $permissions = Permission::all();
+
+        return view('admin.pages.admin-settings.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -87,12 +89,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $request->validate([
-            'name' => 'required|max:255|unique:roles,name,' . $role->id,
-            'slug' => 'required|max:255|unique:roles,slug,' . $role->id,
+        $updateValidated = $request->validate([
+            'name' => 'required|max:255|unique:roles,name,' . $role->id
         ]);
 
-        $role->update($request->only(['name', 'slug']));
+        $role->update($updateValidated);
+
+        $permissions = Permission::whereIn('id', $request->input('permissions', []))->get();
+        $role->syncPermissions($permissions);
 
         return redirect()->route('roles.index')->with('success', 'Role updated successfully.');
     }

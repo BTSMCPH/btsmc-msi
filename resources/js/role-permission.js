@@ -22,6 +22,7 @@ $(document).ready(function () {
         columns: [
             { data: 'name', orderable: true, searchable: true },
             { data: 'guard_name', orderable: true, searchable: true },
+            { data: 'permissions', orderable: false, searchable: false },
             { data: 'actions', orderable: false, searchable: false }
         ],
         drawCallback: function (settings) {

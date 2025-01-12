@@ -27,13 +27,13 @@ class RolePermissionService
         $columns = ['name', 'guard_name', 'actions'];
         $orderColumn = $columns[$orderColumnIndex] ?? 'name';
 
-        $query = Role::query();
+        $query = Role::with('permissions');
 
         // Apply search filter
         if (!empty($searchValue)) {
             $query->where(function ($q) use ($searchValue) {
                 $q->where('name', 'like', "%{$searchValue}%")
-                  ->orWhere('guard_name', 'like', "%{$searchValue}%");
+                    ->orWhere('guard_name', 'like', "%{$searchValue}%");
             });
         }
 
@@ -51,10 +51,36 @@ class RolePermissionService
     public function mapRolesForDataTable($roles): array
     {
         return $roles->map(function ($role) {
+            $permissions = $role->permissions->pluck('name')->map(function ($permission) {
+                $class = '';
+
+                // Determine class based on the first word of the permission
+                $firstWord = explode(' ', $permission)[0];
+                switch ($firstWord) {
+                    case 'create':
+                        $class = 'text-white bg-green-500';
+                        break;
+                    case 'edit':
+                        $class = 'text-blue-800 bg-blue-500';
+                        break;
+                    case 'delete':
+                        $class = 'text-white bg-red-600';
+                        break;
+                    case 'view':
+                        $class = 'text-gray-800 bg-gray-500';
+                        break;
+                    default:
+                        $class = 'text-indigo-800 bg-indigo-500';
+                }
+
+                return '<span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ' . $class . '">' . $permission . '</span>';
+            })->implode(' ');
+
             return [
                 'id' => $role->id,
                 'name' => $role->name,
                 'guard_name' => $role->guard_name,
+                'permissions' => $permissions,
                 'actions' => view('admin.pages.admin-settings.roles.action.actions', compact('role'))->render(),
             ];
         })->toArray();
@@ -83,7 +109,7 @@ class RolePermissionService
         // Apply search filter
         if (!empty($searchValue)) {
             $query->where('name', 'like', "%{$searchValue}%")
-                  ->orWhere('guard_name', 'like', "%{$searchValue}%");
+                ->orWhere('guard_name', 'like', "%{$searchValue}%");
         }
 
         $query->orderBy($orderColumn, $orderDirection);

@@ -17,6 +17,9 @@
     <!--TinyMCE JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.2.0/tinymce.min.js"></script>
 
+    <!-- Select2 JS -->
+
+
 </head>
 
 <body>
@@ -40,6 +43,23 @@
             </main>
         </div>
     </div>
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const alert = document.getElementById('success-alert');
+            if (alert) {
+                setTimeout(() => {
+                    alert.style.transition = 'opacity 0.5s';
+                    alert.style.opacity = '0';
+                    setTimeout(() => alert.remove(), 500);
+                }, 3000);
+            }
+
+        });
+    </script>
 </body>
 
 </html>

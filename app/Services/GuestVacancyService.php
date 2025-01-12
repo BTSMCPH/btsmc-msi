@@ -31,12 +31,12 @@ class GuestVacancyService
 
         foreach ($categories as $category) {
             // Generate a unique query parameter key for each category
-            $queryKey = 'page_' . str_replace(' ', '_', $category);
+            $queryKey = 'page_' . str_replace(' ', '_', strtolower($category));
 
             // Fetch paginated results for each category based on the specific query parameter
             $jobs = Job::where('category', $category)
-                                        ->where('status', 1)
-                                        ->paginate(3, ['*'], $queryKey);
+                        ->where('status', 1)
+                        ->paginate(3, ['*'], $queryKey);
 
             if ($jobs->total() > 0) {
                 $job_lists[$category] = $jobs;

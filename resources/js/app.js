@@ -21,4 +21,23 @@ Alpine.start();
 
 import './datatable';
 
+$(document).on('click', '.delete-btn', function (e) {
+    e.preventDefault(); // Prevent the default button action
 
+    // Display confirmation dialog
+    Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to undo this action!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'Cancel'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Submit the form if confirmed
+            $(this).closest('form').submit();
+        }
+    });
+});

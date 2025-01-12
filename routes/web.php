@@ -91,7 +91,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/admin-settings/roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('/admin-settings/roles', [RoleController::class, 'store'])->name('roles.store');
     Route::get('/admin-settings/roles/edit/{role}', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::patch('/admin-settings/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+    Route::put('/admin-settings/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
     Route::delete('/admin-settings/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
     Route::get('/admin-settings/users', [UserController::class, 'index'])->name('users.index');
@@ -108,7 +108,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/admin-settings/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
     Route::post('/admin-settings/permissions', [PermissionController::class, 'store'])->name('permissions.store');
     Route::get('/admin-settings/permissions/edit/{permission}', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::patch('/admin-settings/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+    Route::put('/admin-settings/permissions/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
     Route::delete('/admin-settings/permissions/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 });
 

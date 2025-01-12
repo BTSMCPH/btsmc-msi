@@ -18,7 +18,7 @@
             </label>
         </div> --}}
 
-        <table id="user-table" class="min-w-full bg-white divide-y divide-gray-200 stripe hover">
+        <table id="user-table" class="w-full border border-collapse border-gray-300 table-auto stripe hover dataTable dtr-inline" style="width:100%;">
             <thead>
                 <tr>
                     <th>{{ __('Name') }}</th>

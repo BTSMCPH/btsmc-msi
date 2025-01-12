@@ -15,7 +15,7 @@
     </div>
     @endif
     <div class="p-4 mb-10 bg-white rounded-lg shadow-xs">
-        <table id="job-table" class="stripe hover" style="width:100%;">
+        <table id="job-table" class="w-full border border-collapse border-gray-300 table-auto stripe hover dataTable dtr-inline" style="width:100%;">
             <thead>
                 <tr>
                     <th class="px-4 py-2">Jobs Title</th>

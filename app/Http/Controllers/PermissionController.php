@@ -58,11 +58,10 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:permissions|max:255',
-            'slug' => 'required|unique:permissions|max:255',
+            'name' => 'required|unique:permissions|max:255'
         ]);
 
-        Permission::create($request->only(['name', 'slug']));
+        Permission::create($request->only(['name']));
 
         return redirect()->route('permissions.index')->with('success', 'Permission created successfully.');
     }
@@ -89,11 +88,10 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => 'required|max:255|unique:permissions,name,' . $permission->id,
-            'slug' => 'required|max:255|unique:permissions,slug,' . $permission->id,
+            'name' => 'required|max:255|unique:permissions,name,' . $permission->id
         ]);
 
-        $permission->update($request->only(['name', 'slug']));
+        $permission->update($request->only(['name']));
 
         return redirect()->route('permissions.index')->with('success', 'Permission updated successfully.');
     }

@@ -131,12 +131,16 @@
                 @enderror
             </div>
 
-            <!-- Submit Button -->
-            <div class="mt-4">
-                <button type="submit" class="px-4 py-2 font-bold text-white uppercase bg-blue-500 rounded-lg float-end hover:bg-blue-600">
-                    {{ __('Update') }}
-                </button>
-            </div>
+           <!-- Buttons -->
+           <div class="flex justify-end">
+            <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
+                {{ __('Cancel') }}
+            </a>
+
+            <x-primary-button class="ms-3">
+                {{ __('Save') }}
+            </x-primary-button>
+        </div>
         </form>
     </div>
 
