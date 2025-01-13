@@ -26,6 +26,7 @@
                     <th>{{ __('Position') }}</th>
                     <th>{{ __('Department') }}</th>
                     <th>{{ __('Status') }}</th>
+                    <th>{{ __('Role') }}</th>
                     <th>{{ __('Actions') }}</th>
                 </tr>
             </thead>

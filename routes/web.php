@@ -51,7 +51,7 @@ route::get('/services-visas-workpermit',[GuestVisaWorkPermitController::class,'i
 Route::post('/contact/send', [GuestContactController::class, 'send'])->name('contact.send')->middleware('throttle:3,1');;
 
 // Authenticated Routes
-Route::middleware(['auth'])->prefix('admin')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
     Route::resource('home',HomeController::class);
     Route::resource('about', AboutController::class);

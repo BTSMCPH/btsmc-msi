@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Services\UserService;
@@ -49,7 +50,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.admin-settings.accounts.create');
+        $roles = Role::all();
+        return view('admin.pages.admin-settings.accounts.create', compact('roles'));
     }
 
     /**
@@ -64,9 +66,13 @@ class UserController extends Controller
             'department' => 'nullable|string|max:255',
             'status' => 'required|string|in:active,inactive',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|exists:roles,id',
         ]);
 
-        $this->userService->createUser($validated);
+        $user = $this->userService->createUser($validated);
+
+        $role = Role::find($validated['role']);
+        $user->assignRole($role);
 
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
@@ -84,7 +90,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('admin.pages.admin-settings.accounts.edit', compact('user'));
+        $roles = Role::all();
+
+        return view('admin.pages.admin-settings.accounts.edit', compact('user', 'roles'));
     }
 
     /**
@@ -99,9 +107,15 @@ class UserController extends Controller
             'department' => 'nullable|string|max:255',
             'status' => 'required|string|in:active,inactive',
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'nullable|string|exists:roles,id',
         ]);
 
         $this->userService->updateUser($user, $validated);
+
+        if (isset($validated['role'])) {
+            $role = Role::find($validated['role']);
+            $user->syncRoles($role);
+        }
 
         return redirect()->route('users.index')->with('success', 'User updated successfully.');
     }

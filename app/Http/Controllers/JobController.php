@@ -23,6 +23,8 @@ class JobController extends Controller
      */
     public function index(Request $request)
     {
+        $this->authorize('viewAny', Job::class);
+
         if ($request->ajax()) {
             $length = $request->get('length', 10);
             $start = $request->get('start', 0);

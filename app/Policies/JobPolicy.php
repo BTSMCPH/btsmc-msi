@@ -13,7 +13,7 @@ class JobPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('view jobs');
     }
 
     /**
@@ -21,7 +21,7 @@ class JobPolicy
      */
     public function view(User $user, Job $job): bool
     {
-        //
+        return $user->hasPermissionTo('view jobs');
     }
 
     /**
@@ -29,7 +29,7 @@ class JobPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('create jobs');
     }
 
     /**
@@ -37,7 +37,7 @@ class JobPolicy
      */
     public function update(User $user, Job $job): bool
     {
-        //
+        return $user->hasPermissionTo('update jobs');
     }
 
     /**
@@ -45,7 +45,7 @@ class JobPolicy
      */
     public function delete(User $user, Job $job): bool
     {
-        //
+        return $user->hasPermissionTo('delete jobs');
     }
 
     /**
@@ -53,7 +53,7 @@ class JobPolicy
      */
     public function restore(User $user, Job $job): bool
     {
-        //
+        return $user->hasPermissionTo('restore jobs');
     }
 
     /**
@@ -61,6 +61,6 @@ class JobPolicy
      */
     public function forceDelete(User $user, Job $job): bool
     {
-        //
+        return $user->hasPermissionTo('force delete jobs');
     }
 }

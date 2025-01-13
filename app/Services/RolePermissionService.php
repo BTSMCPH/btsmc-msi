@@ -20,12 +20,12 @@ class RolePermissionService
     public function getRoles(array $filters, int $length, int $page): LengthAwarePaginator
     {
         $orderColumnIndex = $filters['order'][0]['column'] ?? 0;
-        $orderDirection = $filters['order'][0]['dir'] ?? 'asc';
+        $orderDirection = $filters['order'][0]['dir'] ?? 'desc';
         $searchValue = $filters['search']['value'] ?? '';
 
         // Get the column name from the DataTable
-        $columns = ['name', 'guard_name', 'actions'];
-        $orderColumn = $columns[$orderColumnIndex] ?? 'name';
+        $columns = ['id', 'name', 'guard_name', 'actions'];
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
 
         $query = Role::with('permissions');
 
@@ -61,16 +61,16 @@ class RolePermissionService
                         $class = 'text-white bg-green-500';
                         break;
                     case 'edit':
-                        $class = 'text-blue-800 bg-blue-500';
+                        $class = 'text-white bg-yellow-500';
                         break;
                     case 'delete':
                         $class = 'text-white bg-red-600';
                         break;
                     case 'view':
-                        $class = 'text-gray-800 bg-gray-500';
+                        $class = 'text-white bg-blue-500';
                         break;
                     default:
-                        $class = 'text-indigo-800 bg-indigo-500';
+                        $class = 'text-white bg-gray-200';
                 }
 
                 return '<span class="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ' . $class . '">' . $permission . '</span>';
@@ -86,6 +86,35 @@ class RolePermissionService
         })->toArray();
     }
 
+    public function groupPermissions($permissions)
+    {
+        $groupedPermissions = [
+            'View' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'view') === 0;
+            }),
+            'Create' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'create') === 0;
+            }),
+            'Edit' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'edit') === 0;
+            }),
+            'Delete' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'delete') === 0;
+            }),
+            'Force Delete' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'force delete') === 0;
+            }),
+            'Restore' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'restore') === 0;
+            }),
+            'Test' => $permissions->filter(function ($permission) {
+                return strpos($permission->name, 'test') === 0;
+            }),
+        ];
+
+        return $groupedPermissions;
+    }
+
     /**
      * Get permissions with search, ordering, and pagination.
      *
@@ -97,12 +126,12 @@ class RolePermissionService
     public function getPermissions(array $filters, int $length, int $page): LengthAwarePaginator
     {
         $orderColumnIndex = $filters['order'][0]['column'] ?? 0;
-        $orderDirection = $filters['order'][0]['dir'] ?? 'asc';
+        $orderDirection = $filters['order'][0]['dir'] ?? 'desc';
         $searchValue = $filters['search']['value'] ?? '';
 
         // Get the column name from the DataTable
-        $columns = ['name', 'guard_name', 'actions'];
-        $orderColumn = $columns[$orderColumnIndex] ?? 'name';
+        $columns = ['id', 'name', 'guard_name', 'actions'];
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
 
         $query = Permission::query();
 

@@ -24,6 +24,7 @@ $(document).ready(function() {
             { data: 'position', orderable: true, searchable: true },
             { data: 'department', orderable: true, searchable: true },
             { data: 'status', orderable: true, searchable: true },
+            { data: 'roles', orderable: true, searchable: true },
             { data: 'actions', orderable: false, searchable: false }
         ],
         drawCallback: function(settings) {

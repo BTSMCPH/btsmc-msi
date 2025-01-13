@@ -14,6 +14,8 @@ class VacancyBannerController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', VacancyBanner::class);
+
         $vacancyBanner = VacancyBanner::first();
         return view('admin.pages.vacancy.banner.index', compact('vacancyBanner'));
     }

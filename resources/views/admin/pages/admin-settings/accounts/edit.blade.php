@@ -68,11 +68,26 @@
                     </x-select>
                     <x-input-error :messages="$errors->get('status')" class="mt-2" />
                 </div>
+
+                <!-- Roles -->
+                <div>
+                    <x-input-label for="roles" :value="__('Roles')" />
+                    <select id="role" name="role" class="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <option value="">--Select role--</option>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->id }}" {{ old('role', $user->role_id) == $role->id ? 'selected' : '' }}>
+                                {{ $role->name }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    <x-input-error :messages="$errors->get('roles')" class="mt-2" />
+                </div>
             </div>
 
             <!-- Buttons -->
             <div class="flex justify-end">
-                <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25 transition ease-in-out duration-150">
+                <a href="{{ route('users.index') }}" class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-gray-700 uppercase transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-25">
                     {{ __('Cancel') }}
                 </a>
 

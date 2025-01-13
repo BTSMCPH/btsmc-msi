@@ -41,7 +41,7 @@ class MessageController extends Controller
             $messagesQuery->orderBy($orderColumn, $orderDirection);
         } else {
             // Default sorting: Show the latest messages first
-            $messagesQuery->orderBy('created_at', 'desc');
+            $messagesQuery->orderBy('id', 'desc');
         }
 
         // Apply pagination

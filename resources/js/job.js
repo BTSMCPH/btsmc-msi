@@ -15,7 +15,7 @@ $(document).ready(function () {
         processing: true,
         serverSide: true,
         ajax: {
-            url: '/admin/job',
+            url: '/job',
             type: 'GET',
             dataSrc: 'data',
             error: function (xhr, error, code) {
@@ -56,17 +56,28 @@ $(document).on('change', '.status-toggle', function() {
     console.log("Status: " + status);
 
     $.ajax({
-        url: '/admin/job/update-status/' + jobId,  // Corrected route
+        url: '/job/update-status/' + jobId,
         type: 'POST',
         data: {
             _token: $('meta[name="csrf-token"]').attr('content'),
             status: status
         },
         success: function(response) {
-            console.log('Job status updated to ' + status);  // Check the response
+            console.log('Job status updated to ' + status);
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: 'Job status updated successfully'
+            });
         },
         error: function(xhr, status, error) {
             console.error('Error updating job status: ' + error);
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'An error occurred while updating job status'
+            });
         }
     });
 });

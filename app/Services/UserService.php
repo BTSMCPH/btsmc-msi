@@ -19,12 +19,12 @@ class UserService
     public function getUsers(array $filters, int $length, int $page): LengthAwarePaginator
     {
         $orderColumnIndex = $filters['order'][0]['column'] ?? 0;
-        $orderDirection = $filters['order'][0]['dir'] ?? 'asc';
+        $orderDirection = $filters['order'][0]['dir'] ?? 'desc';
         $searchValue = $filters['search']['value'] ?? '';
 
         // Get the column name from the DataTable
-        $columns = ['name', 'email', 'position', 'department', 'status', 'actions'];
-        $orderColumn = $columns[$orderColumnIndex] ?? 'name';
+        $columns = ['id', 'name', 'email', 'position', 'department', 'status', 'roles', 'actions'];
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
 
         $query = User::query();
 
@@ -43,7 +43,9 @@ class UserService
         $query->orderBy($orderColumn, $orderDirection);
 
         // Apply pagination
-        return $query->paginate($length, ['*'], 'page', $page);
+        $users = $query->with('roles')->paginate($length, ['*'], 'page', $page);
+
+        return $users;
     }
 
 
@@ -56,6 +58,27 @@ class UserService
     public function mapUsersForDataTable($users): array
     {
         return $users->map(function ($user) {
+            $roles = $user->roles->map(function ($role) {
+                switch ($role->name) {
+                    case 'admin':
+                        $class = 'inline-block px-2 py-1 text-xs font-medium text-white bg-blue-500 rounded-full';
+                        break;
+                    case 'editor':
+                        $class = 'inline-block px-2 py-1 text-xs font-medium text-white bg-green-500 rounded-full';
+                        break;
+                    case 'user':
+                            $class = 'inline-block px-2 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full';
+                            break;
+                    case 'hr':
+                        $class = 'inline-block px-2 py-1 text-xs font-medium text-white bg-yellow-500 rounded-full';
+                        break;
+                    default:
+                        $class = 'inline-block px-2 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded-full';
+                }
+
+                return "<span class=\"$class\">{$role->name}</span>";
+            })->join(' ');
+
             return [
                 'id' => $user->id,
                 'name' => $user->name,
@@ -63,6 +86,7 @@ class UserService
                 'position' => $user->position,
                 'department' => $user->department,
                 'status' => $this->generateStatusToggle($user),
+                'roles' => $roles,
                 'actions' => view('admin.pages.admin-settings.accounts.action.actions', compact('user'))->render(),
             ];
         })->toArray();

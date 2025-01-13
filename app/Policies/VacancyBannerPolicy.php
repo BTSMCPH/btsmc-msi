@@ -13,7 +13,7 @@ class VacancyBannerPolicy
      */
     public function viewAny(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('view vacancy banners');
     }
 
     /**
@@ -21,7 +21,7 @@ class VacancyBannerPolicy
      */
     public function view(User $user, VacancyBanner $vacancyBanner): bool
     {
-        //
+        return $user->hasPermissionTo('view vacancy banners');
     }
 
     /**
@@ -29,7 +29,7 @@ class VacancyBannerPolicy
      */
     public function create(User $user): bool
     {
-        //
+        return $user->hasPermissionTo('create vacancy banners');
     }
 
     /**
@@ -37,7 +37,7 @@ class VacancyBannerPolicy
      */
     public function update(User $user, VacancyBanner $vacancyBanner): bool
     {
-        //
+        return $user->hasPermissionTo('update vacancy banners');
     }
 
     /**
@@ -45,7 +45,7 @@ class VacancyBannerPolicy
      */
     public function delete(User $user, VacancyBanner $vacancyBanner): bool
     {
-        //
+        return $user->hasPermissionTo('delete vacancy banners');
     }
 
     /**
@@ -53,7 +53,7 @@ class VacancyBannerPolicy
      */
     public function restore(User $user, VacancyBanner $vacancyBanner): bool
     {
-        //
+        return $user->hasPermissionTo('restore vacancy banners');
     }
 
     /**
@@ -61,6 +61,6 @@ class VacancyBannerPolicy
      */
     public function forceDelete(User $user, VacancyBanner $vacancyBanner): bool
     {
-        //
+        return $user->hasPermissionTo('force delete vacancy banners');
     }
 }

@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             AdminSeeder::class,
             ContactMessagesSeeder::class,
             UserAccountSeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }

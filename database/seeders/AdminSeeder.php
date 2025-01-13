@@ -23,6 +23,6 @@ class AdminSeeder extends Seeder
             'status' => 'active',
         ]);
 
-        $adminUser->assignRole('admin', 'recruiter', 'user');
+        $adminUser->assignRole('admin');
     }
 }

@@ -34,7 +34,7 @@ class RoleController extends Controller
 
             return response()->json([
                 'data' => $data,
-                'recordsTotal' =>$roles->total(),
+                'recordsTotal' => $roles->total(),
                 'recordsFiltered' => $roles->total(),
                 'current_page' => $roles->currentPage(),
                 'last_page' => $roles->lastPage(),
@@ -49,7 +49,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.admin-settings.roles.create');
+        $permissions = Permission::all();
+        return view('admin.pages.admin-settings.roles.create', compact('permissions'));
     }
 
     /**
@@ -61,7 +62,10 @@ class RoleController extends Controller
             'name' => 'required|unique:roles|max:255'
         ]);
 
-        Role::create($validated);
+        $role = Role::create($validated);
+
+        $permissions = Permission::whereIn('id', $request->input('permissions', []))->get();
+        $role->syncPermissions($permissions);
 
         return redirect()->route('roles.index')->with('success', 'Role created successfully.');
     }
@@ -79,9 +83,13 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        $permissions = Permission::all();
+        // Retrieve and sort permissions by name in descending order
+        $permissions = Permission::latest()->get();
 
-        return view('admin.pages.admin-settings.roles.edit', compact('role', 'permissions'));
+        // Group permissions based on specific keywords
+        $groupedPermissions = $this->RolePermissionService->groupPermissions($permissions);
+
+        return view('admin.pages.admin-settings.roles.edit', compact('role', 'groupedPermissions'));
     }
 
     /**

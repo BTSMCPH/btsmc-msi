@@ -21,12 +21,12 @@ class JobService
     public function getJobs(array $filters, int $length, int $page): LengthAwarePaginator
     {
         $orderColumnIndex = $filters['order'][0]['column'] ?? 0;
-        $orderDirection = $filters['order'][0]['dir'] ?? 'asc';
+        $orderDirection = $filters['order'][0]['dir'] ?? 'desc';
         $searchValue = $filters['search']['value'] ?? '';
 
         // Get the column name from the DataTable
-        $columns = ['job_title', 'job_type', 'location', 'schedule', 'job_requirements', 'job_description', 'category', 'status', 'actions'];
-        $orderColumn = $columns[$orderColumnIndex] ?? 'job_title';
+        $columns = ['id', 'job_title', 'job_type', 'location', 'schedule', 'job_requirements', 'job_description', 'category', 'status', 'actions'];
+        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
 
         $query = Job::query();
 
